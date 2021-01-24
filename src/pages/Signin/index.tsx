@@ -1,26 +1,40 @@
 import React from 'react';
-import { FiLogIn } from 'react-icons/fi';
+import { FiLock, FiLogIn, FiMail } from 'react-icons/fi';
+import { Form } from '@unform/web';
 import { Container, Content, Background } from './style';
 import logoImg from '../../assets/logo.svg';
 
-const Signin: React.FC = () => (
-  <Container>
-    <Content>
-      <img src={logoImg} alt="Logo Go Barber" />
-      <form>
-        <h1>Faca seu logon</h1>
-        <input type="email" placeholder="E-mail" />
-        <input type="password" placeholder="Senha" />
-        <button type="submit">Entrar</button>
-        <a href="forgot">Esqueci minha senha</a>
-      </form>
-      <a href="slsl">
-        <FiLogIn />
-        Criar conta
-      </a>
-    </Content>
-    <Background />
-  </Container>
-);
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+
+const Signin: React.FC = () => {
+  function HandleForm(data: object) {
+    console.log(data);
+  }
+  return (
+    <Container>
+      <Content>
+        <img src={logoImg} alt="Logo Go Barber" />
+        <Form onSubmit={HandleForm}>
+          <h1>Faca seu logon</h1>
+          <Input icon={FiMail} name="email" type="email" placeholder="E-mail" />
+          <Input
+            icon={FiLock}
+            name="pass"
+            type="password"
+            placeholder="Senha"
+          />
+          <Button type="submit">Entrar</Button>
+          <a href="forgot">Esqueci minha senha</a>
+        </Form>
+        <a href="slsl">
+          <FiLogIn />
+          Criar conta
+        </a>
+      </Content>
+      <Background />
+    </Container>
+  );
+};
 
 export default Signin;
