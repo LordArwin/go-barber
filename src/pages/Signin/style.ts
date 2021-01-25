@@ -17,7 +17,7 @@ export const Content = styled.div`
   padding: 10px;
   form {
     margin: 40px 0px;
-    width: 300px;
+    width: 340px;
     text-align: center;
     h1 {
       margin-bottom: 24px;
