@@ -10,6 +10,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationsErrors';
 import { useAuth } from '../../hooks/AuthContext';
+import { useToast } from '../../hooks/Toast';
 
 interface dataForm {
   email: string;
@@ -17,6 +18,7 @@ interface dataForm {
 }
 const Signin: React.FC = () => {
   const { signIn } = useAuth();
+  const { addToast } = useToast();
   const formRef = useRef<FormHandles>(null);
   const HandleForm = useCallback(
     async (data: dataForm) => {
@@ -30,13 +32,20 @@ const Signin: React.FC = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
-        signIn({ email: data.email, password: data.password });
+        await signIn({ email: data.email, password: data.password });
       } catch (err) {
-        const errors = getValidationErrors(err);
-        formRef.current?.setErrors(errors);
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+          formRef.current?.setErrors(errors);
+        }
+        addToast({
+          title: 'Erro ao tentar realizar Login',
+          description: 'Verifique suas credenciais e tente novamente!',
+          type: 'error',
+        });
       }
     },
-    [signIn],
+    [signIn, addToast],
   );
   return (
     <Container>
